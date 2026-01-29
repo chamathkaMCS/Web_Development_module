@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Character Selector</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+      }
+
+      #image-container {
+        width: 500px;
+        height: 500px;
+        margin: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      #image-container img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+
+      select {
+        padding: 10px;
+        width: 500px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Hello 28354</h1>
+
+    <div id="image-container">
+      <img id="character-image" src="" alt="" />
+    </div>
+
+    <select id="characters">
+      <option value="">Select a character</option>
+      <option value="Garfield">Garfield</option>
+      <option value="Odie">Odie</option>
+      <option value="Nermel">Nermel</option>
+      <option value="John">John</option>
+    </select>
+
+    <script>
+      const select = document.getElementById("characters");
+      const img = document.getElementById("character-image");
+
+      function updateImage(selected) {
+        if (!selected) return;
+        const confirmChange = confirm(
+          `Do you want to change image to ${selected}?`,
+        );
+        if (confirmChange) {
+          img.src = `${selected}.png`;
+          img.alt = selected;
+          img.style.display = "block";
+        }
+      }
+
+      // Trigger when selection changes
+      select.addEventListener("change", function () {
+        updateImage(this.value);
+      });
+
+      // Check on page load
+      window.addEventListener("load", function () {
+        if (select.value) {
+          updateImage(select.value);
+          
+        }
+      });
+    </script>
+  </body>
+</html>
