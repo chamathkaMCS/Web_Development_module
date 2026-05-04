@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Decrypt Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 400px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    textarea, input {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .copy-btn {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .decrypt-btn {
+      background: #2196F3;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Decrypt Message</h2>
+
+  <label>Encrypted Message</label>
+  <textarea id="encryptedMsg" rows="4">
+ItZXpTr+wiXfnZPvQg9CHvC/0AkMaP7FqpEDHf653ammvGnREMsy9w6+65xHRG6qpg+YhKUVCEfBc9rTV4j67FGCtZrPbRMRvm2E6WMTi9/BhU9REdig2K6eUsrjy8yexcrTMoSRdOPSfdgAWnN6jg==
+  </textarea>
+  <button class="copy-btn" onclick="copyText('encryptedMsg')">Copy Encrypted</button>
+
+  <label>Security Key</label>
+  <input type="text" id="securityKey" value="MCS_WTA_A04">
+  <button class="copy-btn" onclick="copyText('securityKey')">Copy Key</button>
+
+  <button class="decrypt-btn" onclick="goToDecrypt()">Decrypt the Text</button>
+</div>
+
+<script>
+  function copyText(id) {
+    const element = document.getElementById(id);
+    element.select();
+    element.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    alert("Copied!");
+  }
+
+  function goToDecrypt() {
+    window.open("https://www.devglan.com/online-tools/text-encryption-decryption", "_blank");
+  }
+</script>
+
+</body>
+</html>
