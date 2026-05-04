@@ -3,43 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <title>Decrypt Tool</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  
   <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      margin: 0;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      background: linear-gradient(135deg, #667eea, #764ba2);
     }
 
-    .container {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      width: 400px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    .card {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 15px;
+      width: 420px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      animation: fadeIn 0.6s ease;
     }
 
     h2 {
       text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #555;
     }
 
     textarea, input {
       width: 100%;
-      margin: 10px 0;
+      margin-top: 6px;
+      margin-bottom: 12px;
       padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      transition: 0.2s;
+    }
+
+    textarea:focus, input:focus {
+      border-color: #667eea;
+      outline: none;
+      box-shadow: 0 0 5px rgba(102,126,234,0.5);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
     }
 
     button {
-      width: 100%;
+      flex: 1;
       padding: 10px;
-      margin-top: 10px;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
     }
 
     .copy-btn {
@@ -47,28 +77,57 @@
       color: white;
     }
 
+    .copy-btn:hover {
+      background: #43a047;
+    }
+
     .decrypt-btn {
-      background: #2196F3;
+      background: #667eea;
       color: white;
+      margin-top: 10px;
+    }
+
+    .decrypt-btn:hover {
+      background: #5a67d8;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      margin-top: 15px;
+      color: #999;
     }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <h2>Decrypt Message</h2>
+<div class="card">
+  <h2>🔐 Decrypt Message</h2>
 
   <label>Encrypted Message</label>
   <textarea id="encryptedMsg" rows="4">
 ItZXpTr+wiXfnZPvQg9CHvC/0AkMaP7FqpEDHf653ammvGnREMsy9w6+65xHRG6qpg+YhKUVCEfBc9rTV4j67FGCtZrPbRMRvm2E6WMTi9/BhU9REdig2K6eUsrjy8yexcrTMoSRdOPSfdgAWnN6jg==
   </textarea>
-  <button class="copy-btn" onclick="copyText('encryptedMsg')">Copy Encrypted</button>
+
+  <div class="btn-row">
+    <button class="copy-btn" onclick="copyText('encryptedMsg')">Copy</button>
+  </div>
 
   <label>Security Key</label>
   <input type="text" id="securityKey" value="MCS_WTA_A04">
-  <button class="copy-btn" onclick="copyText('securityKey')">Copy Key</button>
 
-  <button class="decrypt-btn" onclick="goToDecrypt()">Decrypt the Text</button>
+  <div class="btn-row">
+    <button class="copy-btn" onclick="copyText('securityKey')">Copy</button>
+  </div>
+
+  <button class="decrypt-btn" onclick="goToDecrypt()">🚀 Open Decrypt Tool</button>
+
+  <div class="footer">Simple • Fast • Clean</div>
 </div>
 
 <script>
@@ -77,7 +136,6 @@ ItZXpTr+wiXfnZPvQg9CHvC/0AkMaP7FqpEDHf653ammvGnREMsy9w6+65xHRG6qpg+YhKUVCEfBc9rT
     element.select();
     element.setSelectionRange(0, 99999);
     document.execCommand("copy");
-    alert("Copied!");
   }
 
   function goToDecrypt() {
