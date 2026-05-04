@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Decrypt Tool</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   
@@ -13,30 +14,34 @@
 
     body {
       margin: 0;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       background: linear-gradient(135deg, #B5E18B, #FFFBB1);
+      padding: 15px;
     }
 
     .card {
       background: #ffffff;
-      padding: 25px;
+      padding: 20px;
       border-radius: 15px;
-      width: 420px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      animation: fadeIn 0.6s ease;
+      width: 100%;
+      max-width: 360px; /* mobile-friendly */
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      animation: fadeIn 0.5s ease;
+      position: relative;
     }
 
     h2 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       color: #333;
+      font-size: 20px;
     }
 
     label {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: #555;
     }
@@ -44,31 +49,32 @@
     textarea, input {
       width: 100%;
       margin-top: 6px;
-      margin-bottom: 12px;
-      padding: 10px;
-      border-radius: 8px;
+      margin-bottom: 10px;
+      padding: 12px;
+      border-radius: 10px;
       border: 1px solid #ddd;
-      transition: 0.2s;
+      background: #f9f9f9;
+      font-size: 14px;
     }
 
-    textarea:focus, input:focus {
-      border-color: #667eea;
-      outline: none;
-      box-shadow: 0 0 5px rgba(102,126,234,0.5);
+    textarea {
+      resize: none;
     }
 
+    /* CENTERED BUTTONS */
     .btn-row {
       display: flex;
-      gap: 10px;
+      justify-content: center;
+      margin-bottom: 12px;
     }
 
     button {
-      flex: 1;
-      padding: 10px;
+      padding: 10px 18px;
       border: none;
-      border-radius: 8px;
+      border-radius: 25px; /* pill style */
       cursor: pointer;
       font-weight: 600;
+      font-size: 14px;
       transition: 0.2s;
     }
 
@@ -77,40 +83,56 @@
       color: white;
     }
 
-    .copy-btn:hover {
-      background: #43a047;
+    .copy-btn:active {
+      transform: scale(0.95);
     }
 
     .decrypt-btn {
+      display: block;
+      margin: 10px auto 0;
       background: #667eea;
       color: white;
-      margin-top: 10px;
+      padding: 12px 22px;
+      border-radius: 25px;
     }
 
-    .decrypt-btn:hover {
-      background: #5a67d8;
+    .decrypt-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* Toast */
+    .toast {
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: #fff;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 13px;
+      opacity: 0;
+      transition: 0.3s;
+    }
+
+    .toast.show {
+      bottom: -10px;
+      opacity: 1;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
-    }
-
-    .footer {
-      text-align: center;
-      font-size: 12px;
-      margin-top: 15px;
-      color: #999;
     }
   </style>
 </head>
 <body>
 
 <div class="card">
-  <h2>Decrypt Message</h2>
+  <h2>🔐 Decrypt</h2>
 
   <label>Encrypted Message</label>
-  <textarea id="encryptedMsg" rows="4">
+  <textarea id="encryptedMsg" rows="4" readonly>
 ItZXpTr+wiXfnZPvQg9CHvC/0AkMaP7FqpEDHf653ammvGnREMsy9w6+65xHRG6qpg+YhKUVCEfBc9rTV4j67FGCtZrPbRMRvm2E6WMTi9/BhU9REdig2K6eUsrjy8yexcrTMoSRdOPSfdgAWnN6jg==
   </textarea>
 
@@ -119,23 +141,33 @@ ItZXpTr+wiXfnZPvQg9CHvC/0AkMaP7FqpEDHf653ammvGnREMsy9w6+65xHRG6qpg+YhKUVCEfBc9rT
   </div>
 
   <label>Security Key</label>
-  <input type="text" id="securityKey" value="MCS_WTA_A04">
+  <input type="text" id="securityKey" value="MCS_WTA_A04" readonly>
 
   <div class="btn-row">
     <button class="copy-btn" onclick="copyText('securityKey')">Copy</button>
   </div>
 
-  <button class="decrypt-btn" onclick="goToDecrypt()"> Open Decrypt Tool</button>
+  <button class="decrypt-btn" onclick="goToDecrypt()">Open Decrypt Tool</button>
 
-  <div class="footer"></div>
+  <div id="toast" class="toast">Copied!</div>
 </div>
 
 <script>
   function copyText(id) {
     const element = document.getElementById(id);
-    element.select();
-    element.setSelectionRange(0, 99999);
-    document.execCommand("copy");
+    const text = element.value || element.textContent;
+
+    navigator.clipboard.writeText(text);
+    showToast();
+  }
+
+  function showToast() {
+    const toast = document.getElementById("toast");
+    toast.classList.add("show");
+
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 1200);
   }
 
   function goToDecrypt() {
